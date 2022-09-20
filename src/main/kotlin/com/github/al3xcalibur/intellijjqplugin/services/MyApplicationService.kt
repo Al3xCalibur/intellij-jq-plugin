@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.al3xcalibur.intellijjqplugin.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.al3xcalibur.intellijjqplugin.MyBundle
 
 class MyApplicationService {
 
