@@ -13,6 +13,8 @@ plugins {
     id("org.jetbrains.changelog") version "1.3.1"
     // Gradle Qodana Plugin
     id("org.jetbrains.qodana") version "0.1.13"
+
+    id("org.jetbrains.grammarkit") version "2021.2.2"
 }
 
 group = properties("pluginGroup")
@@ -21,6 +23,10 @@ version = properties("pluginVersion")
 // Configure project's dependencies
 repositories {
     mavenCentral()
+}
+
+dependencies {
+    implementation("net.thisptr:jackson-jq:1.0.0-preview.20220705")
 }
 
 // Set the JVM language level used to compile sources and generate files - Java 11 is required since 2020.3
@@ -54,9 +60,27 @@ qodana {
     showReport.set(System.getenv("QODANA_SHOW_REPORT")?.toBoolean() ?: false)
 }
 
+sourceSets["main"].java.srcDirs("src/main/gen")
+
 tasks {
     wrapper {
         gradleVersion = properties("gradleVersion")
+    }
+
+    generateParser {
+        dependsOn(generateLexer)
+        source.set("src/main/kotlin/com/github/al3xcalibur/jqtool/language/Jq.bnf")
+        pathToPsiRoot.set("psi")
+        pathToParser.set("JqParser.java")
+        targetRoot.set("src/main/gen/")
+        purgeOldFiles.set(true)
+    }
+
+    generateLexer {
+        source.set("src/main/kotlin/com/github/al3xcalibur/jqtool/language/Jq.flex")
+        targetDir.set("src/main/gen/com/github/al3xcalibur/jqtool/language/")
+        targetClass.set("JqLexer")
+        purgeOldFiles.set(true)
     }
 
     patchPluginXml {

@@ -1,18 +1,29 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.al3xcalibur.intellijjqplugin</id>
-    <name>intellij-jq-plugin</name>
+    <id>com.github.al3xcalibur.jqtool</id>
+    <name>Jq-Tool</name>
     <vendor>al3xcalibur</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.al3xcalibur.intellijjqplugin.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.al3xcalibur.intellijjqplugin.services.MyProjectService"/>
+        <toolWindow id="Sample editor" secondary="true" icon="AllIcons.General.LayoutEditorPreview" anchor="right"
+                    factoryClass="com.github.al3xcalibur.jqtool.ui.MyToolWindowFactory"/>
     </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.al3xcalibur.intellijjqplugin.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType
+                name="Jq File"
+                implementationClass="com.github.al3xcalibur.jqtool.language.JqFileType"
+                fieldName="INSTANCE"
+                language="Jq"
+                extensions="jq"/>
+        <lang.parserDefinition
+                implementationClass="com.github.al3xcalibur.jqtool.language.JqParserDefinition"
+                language="Jq" />
+        <lang.syntaxHighlighterFactory
+                language="Jq"
+                implementationClass="com.github.al3xcalibur.jqtool.language.JqSyntaxHighlighterFactory"/>
+        <colorSettingsPage
+                implementation="com.github.al3xcalibur.jqtool.language.JqColorSettingsPage"/>
+    </extensions>
 </idea-plugin>

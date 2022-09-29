@@ -1,4 +1,4 @@
-package com.github.al3xcalibur.intellijjqplugin
+package com.github.al3xcalibur.jqtool
 
 import com.intellij.ide.highlighter.XmlFileType
 import com.intellij.psi.xml.XmlFile

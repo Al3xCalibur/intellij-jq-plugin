@@ -1,0 +1,40 @@
+{
+  parserClass="com.github.al3xcalibur.jqtool.language.JqParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Jq"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.github.al3xcalibur.jqtool.language.psi"
+  psiImplPackage="com.github.al3xcalibur.jqtool.language.psi.impl"
+
+  elementTypeHolderClass="com.github.al3xcalibur.jqtool.language.psi.JqTypes"
+  elementTypeClass="com.github.al3xcalibur.jqtool.language.psi.JqElementType"
+  tokenTypeClass="com.github.al3xcalibur.jqtool.language.psi.JqTokenType"
+}
+
+jqFile ::= value (filterOperator value)*
+
+filterOperator ::= COMMA | PIPE | operator
+
+operator ::= PLUS | MINUS | TIMES | DIV | MOD
+
+value ::= STR | number | filters | constructor | functionCall
+
+filters ::= DOT arrayIndex INT? | filterBase+
+
+filterBase ::= arrayIndex INT? | DOT IDENTIFIER
+
+constructor ::= arrayConstructor | objectConstructor
+
+arrayConstructor ::= LBRA value (COMMA value)* RBRA
+
+objectConstructor ::= LCUR objectKey COLON value (COMMA objectKey COLON value)* RCUR
+
+objectKey ::= IDENTIFIER | STR
+
+functionCall ::= IDENTIFIER LPAR value RPAR
+
+number ::= INTEGER | DECIMAL
+
+arrayIndex ::= LBRA (INTEGER | STR | INTEGER COLON INTEGER)? RBRA
